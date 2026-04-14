@@ -1,6 +1,6 @@
-# thepowerrepo
+# Prometeo -- Ejercicios
 
-Repositorio de ejercicios y materiales de clase para los ciclos formativos de **DAW** y **ASIR** en Prometeo (The Power MBA FP).
+Repositorio de ejercicios y materiales de clase para los ciclos formativos de **DAW** y **ASIR** en Prometeo.
 
 ## Módulos
 
