@@ -1,0 +1,11 @@
+.DS_Store
+
+# Soluciones locales de s10-apis-rest (no subir al repo)
+Dwec/s10-apis-rest/api.js
+Dwec/s10-apis-rest/bonus-errores-timeout.js
+Dwec/s10-apis-rest/bonus-secuencial-vs-paralelo.js
+Dwec/s10-apis-rest/buscador.js
+Dwec/s10-apis-rest/crud.js
+Dwec/s10-apis-rest/debounce.js
+Dwec/s10-apis-rest/paginacion.js
+Dwec/s10-apis-rest/perfil.js
