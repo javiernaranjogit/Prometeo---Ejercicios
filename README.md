@@ -43,10 +43,19 @@ Dwec/
 │   ├── catalogo-dinamico/
 │   ├── lista-tareas/
 │   └── galeria-filtros/
-└── s9-async/                  Asincronía: promesas, async/await, fetch
-    ├── reservas.js
-    ├── fetch-reintentos.js
-    └── login-token.js
+├── s9-async/                  Asincronía: promesas, async/await, fetch
+│   ├── reservas.js
+│   ├── fetch-reintentos.js
+│   └── login-token.js
+└── s10-apis-rest/             APIs REST, fetch, JSON, CRUD
+    ├── api.js
+    ├── buscador.js
+    ├── paginacion.js
+    ├── perfil.js
+    ├── crud.js
+    ├── debounce.js
+    ├── bonus-secuencial-vs-paralelo.js
+    └── bonus-errores-timeout.js
 ```
 
 ## Cómo ejecutar los ejercicios
