@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<biblioteca>
+    <libro id="1" genero="ficcion" disponible="true">
+        <titulo>Libro 1</titulo>
+        <autor>Patrick</autor>
+        <anio>2025</anio>
+        <paginas>800</paginas>
+    </libro>
+    <libro id="2" genero="ciencia" disponible="true">
+        <titulo>Libro 2</titulo>
+        <autor>Patrick</autor>
+        <anio>2025</anio>
+        <paginas>800</paginas>
+    </libro>
+    <libro id="3" genero="ciencia" disponible="false">
+        <titulo>Libro 3</titulo>
+        <autor>Patrick</autor>
+        <anio>2025</anio>
+        <paginas>800</paginas>
+    </libro>
+    <libro id="4" genero="ficcion" disponible="true">
+        <titulo>Libro 4</titulo>
+        <autor>Patrick</autor>
+        <anio>2025</anio>
+        <paginas>800</paginas>
+    </libro>
+    <libro id="5" genero="historia" disponible="true">
+        <titulo>Libro 5</titulo>
+        <autor>Patrick</autor>
+        <anio>2025</anio>
+        <paginas>800</paginas>
+    </libro>
+</biblioteca>

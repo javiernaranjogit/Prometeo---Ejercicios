@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <!-- OJO: dice "UFT-8" en lugar de "UTF-8" -> conviene corregirlo para evitar
+         problemas con acentos y caracteres especiales. -->
+    <meta charset="UFT-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WanderSpain - Descubre España</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <!-- Cabecera fija (sticky) con logo a la izquierda y navegación a la derecha -->
+    <header class="header">
+        <div class="logo">WanderSpain</div>
+        <nav class="nav">
+            <a href="#">Destinos</a>
+            <a href="#">Experiencias</a>
+            <a href="#">Blog</a>
+            <!-- El último <a> se estiliza como botón CTA en style.css (selector :last-child) -->
+            <a href="#">Reservar</a>
+        </nav>
+    </header>
+    <main>
+        <!--- Hero: imagen de fondo a pantalla casi completa con título y CTA -->
+        <section class="hero">
+            <div class="hero__content">
+                <h1 class="hero__title">Discover the Magic of Spain</h1>
+                <p class="hero__subtitle">Curated journeys through Spain's most enchanting destination</p>
+                <a href="#destinos" class="btn-primary">Explore Destination</a>
+            </div>
+        </section>
+        <!---  Buscador, search bar, etc... (pendiente) -->
+
+        <!--- Fichas de destinos: grid de 3 columnas con tarjetas reutilizables (clase .card) -->
+        <section class="destinations" id="destinos">
+            <h2 class="section-title">Destinos destacados</h2>
+            <div class="destination__grid">
+                <!-- Cada <article class="card"> es una ficha de destino.
+                     Estructura: imagen + cuerpo (título, descripción, precio).
+                     De momento están duplicadas como placeholder hasta tener datos reales. -->
+                <article class="card">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600" alt="Sevilla"
+                        class="card__img">
+                    <div class="card__body">
+                        <h3 class="card__title">Sevilla</h3>
+                        <p class="card__desc">Sevilla la ciudad</p>
+                        <span class="card__price">Desde €</span>
+                    </div>
+                </article>
+                <article class="card">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600" alt="Sevilla"
+                        class="card__img">
+                    <div class="card__body">
+                        <h3 class="card__title">Sevilla</h3>
+                        <p class="card__desc">Sevilla la ciudad</p>
+                        <span class="card__price">Desde €</span>
+                    </div>
+                </article>
+                <article class="card">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600" alt="Sevilla"
+                        class="card__img">
+                    <div class="card__body">
+                        <h3 class="card__title">Sevilla</h3>
+                        <p class="card__desc">Sevilla la ciudad</p>
+                        <span class="card__price">Desde €</span>
+                    </div>
+                </article>
+                <article class="card">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600" alt="Sevilla"
+                        class="card__img">
+                    <div class="card__body">
+                        <h3 class="card__title">Sevilla</h3>
+                        <p class="card__desc">Sevilla la ciudad</p>
+                        <span class="card__price">Desde €</span>
+                    </div>
+                </article>
+                <article class="card">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600" alt="Sevilla"
+                        class="card__img">
+                    <div class="card__body">
+                        <h3 class="card__title">Sevilla</h3>
+                        <p class="card__desc">Sevilla la ciudad</p>
+                        <span class="card__price">Desde €</span>
+                    </div>
+                </article>
+                <article class="card">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600" alt="Sevilla"
+                        class="card__img">
+                    <div class="card__body">
+                        <h3 class="card__title">Sevilla</h3>
+                        <p class="card__desc">Sevilla la ciudad</p>
+                        <span class="card__price">Desde €</span>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+    </main>
+    <!-- Footer: el atributo footer_copy está mal escrito (debería ser class="footer__copy"
+         dentro de las comillas de class, no como atributo suelto). Revisar. -->
+    <footer class="footer" id="contacto">
+        <p class="" footer_copy> 2026 - WanderSpain. Todos los derechos reservados</p>
+
+    </footer>
+    <script src="main.js"></script>
+</body>
+
+</html>

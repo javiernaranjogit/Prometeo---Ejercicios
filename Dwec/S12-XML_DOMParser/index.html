@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Biblioteca</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Biblioteca</h1>
+    <!-- Cada botón llama a filtrar() en app.js con el género correspondiente.
+         'todos' es un caso especial que muestra el array completo. -->
+    <button onclick="filtrar('todos')">Todos</button>
+    <button onclick="filtrar('ficcion')">Ficcion</button>
+    <button onclick="filtrar('ciencia')">Ciencia</button>
+    <button onclick="filtrar('historia')">Historia</button>
+
+    <!-- Contenedor donde app.js inyecta las tarjetas con innerHTML -->
+    <div id="lista"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

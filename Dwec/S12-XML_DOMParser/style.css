@@ -1,0 +1,10 @@
+/* Borde verde si el libro está disponible (atributo disponible="true" en el XML) */
+.card.disponible {
+    border-left: 4px solid green;
+}
+
+/* Borde rojo si NO está disponible.
+   La clase la asigna cargarBiblioteca2() en app.js según el boolean. */
+.card.no-disponible {
+    border-left: 4px solid red;
+}
