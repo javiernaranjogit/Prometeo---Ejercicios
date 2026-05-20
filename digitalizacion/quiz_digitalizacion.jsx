@@ -1,4 +1,4 @@
-import { useState } from "react";
+const { useState } = React;
 
 const QUESTIONS = [
   // ── U1: FUNDAMENTOS ──────────────────────────────────────────────────
@@ -697,7 +697,7 @@ function ResultsScreen({ results, questions, onRestart }) {
 }
 
 // ── Main Quiz Screen ──────────────────────────────────────────────────────
-export default function App() {
+function App() {
   const allQuestions = useQuestions();
 
   const [phase, setPhase] = useState("start"); // start | quiz | results
