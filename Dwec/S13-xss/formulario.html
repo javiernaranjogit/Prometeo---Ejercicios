@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S13 - Validación de formulario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #d32f2f;
+            font-size: 24px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1976d2;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #115293;
+        }
+
+        #errores {
+            margin-top: 15px;
+            color: #d32f2f;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Validación de formulario</h1>
+        <form id="registro" method="post" action="/login" novalidate>
+            <label for="nombre">Nombre:</label>
+            <input id="nombre" name="nombre" required minlength="3" maxlength="50"
+                pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]+">
+
+            <label for="email">Email:</label>
+            <input id="email" name="email" type="email" required>
+
+            <label for="edad">Edad:</label>
+            <input id="edad" name="edad" type="number" min="18" max="120" required>
+
+            <label for="dni">DNI:</label>
+            <input id="dni" name="dni" required pattern="[0-9]{8}[A-Za-z]">
+
+            <button type="submit">Enviar</button>
+            <ul id="errores"></ul>
+        </form>
+    </div>
+
+    <script src="main_formulario.js"></script>
+</body>
+
+</html>

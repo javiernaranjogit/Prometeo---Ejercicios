@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSS Demo - Sanitización con DOMPurify</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #d32f2f;
+            font-size: 24px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1976d2;
+        }
+
+        .salida {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f0f0f0;
+            border-left: 4px solid #d32f2f;
+            min-height: 40px;
+            word-break: break-word;
+        }
+
+        .salida.safe {
+            border-left-color: #2e7d32;
+        }
+
+        .etiqueta {
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 15px;
+            display: block;
+        }
+
+        .warning {
+            color: #d32f2f;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>XSS Demo</h1>
+        <p class="warning">Prueba a escribir: <code>&lt;img src=x onerror=alert('XSS')&gt;</code></p>
+
+        <label for="q">Escribe algo:</label>
+        <input id="q" type="text" placeholder="Ej: hola, <img src=x onerror=alert('XSS')>" autocomplete="off">
+
+        <span class="etiqueta">Vulnerable (innerHTML directo):</span>
+        <div id="out-vuln" class="salida"></div>
+
+        <span class="etiqueta">Seguro (DOMPurify):</span>
+        <div id="out-safe" class="salida safe"></div>
+
+        <span class="etiqueta">Seguro (textContent, sin HTML):</span>
+        <div id="out-text" class="salida safe"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
