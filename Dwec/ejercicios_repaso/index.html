@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DWEC · Ejercicios de Repaso JS</title>
+<style>
+  :root{
+    --bg:#0F172A; --bg2:#1E293B; --card:#1E1B4B; --border:#312E81;
+    --text:#F1F5F9; --muted:#94A3B8; --accent:#6366F1; --accent2:#8B5CF6;
+    --green:#10B981; --red:#EF4444; --yellow:#F59E0B;
+    --u1:#8B5CF6; --u2:#06B6D4; --u3:#10B981; --u4:#A855F7; --u5:#F59E0B; --u6:#F43F5E;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:linear-gradient(135deg,#0F172A 0%,#1E1B4B 50%,#0F172A 100%);
+    color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    min-height:100vh;padding:20px 16px 60px;
+  }
+  header{max-width:980px;margin:0 auto 28px;text-align:center}
+  header h1{
+    font-size:32px;font-weight:900;letter-spacing:-.02em;
+    background:linear-gradient(135deg,#A78BFA,#6366F1);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  header p{color:var(--muted);margin-top:6px;font-size:14px}
+  .units-nav{
+    max-width:980px;margin:0 auto 24px;
+    display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+  }
+  .units-nav a{
+    text-decoration:none;padding:6px 14px;border-radius:10px;
+    font-size:13px;font-weight:700;background:#0F172A;border:1px solid #334155;
+    color:var(--text);transition:transform .15s;
+  }
+  .units-nav a:hover{transform:translateY(-2px)}
+  .unit-section{max-width:980px;margin:0 auto 36px}
+  .unit-title{
+    font-size:22px;font-weight:900;margin-bottom:14px;
+    padding-left:14px;border-left:6px solid var(--accent);
+    letter-spacing:-.01em;
+  }
+  .ex{
+    background:linear-gradient(135deg,#1E293B,#1E1B4B);
+    border:1px solid var(--border);border-radius:16px;
+    padding:22px 24px;margin-bottom:18px;
+    box-shadow:0 8px 30px #0008;
+  }
+  .ex-head{display:flex;gap:10px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
+  .ex-tag{
+    font-size:11px;font-weight:800;padding:3px 10px;border-radius:6px;
+    color:#fff;letter-spacing:.04em;
+  }
+  .ex-num{
+    font-family:'Space Mono',monospace;color:var(--muted);
+    font-size:12px;font-weight:700;
+  }
+  .ex-title{font-size:17px;font-weight:800;margin:4px 0 10px}
+  .ex-desc{color:#CBD5E1;font-size:14px;line-height:1.55;margin-bottom:14px}
+  .ex-desc code{
+    background:#0F172A;padding:1px 7px;border-radius:4px;
+    font-family:'Space Mono',ui-monospace,Menlo,monospace;font-size:13px;color:#A5B4FC;
+  }
+  textarea.code{
+    width:100%;min-height:140px;
+    background:#0F172A;color:#E2E8F0;border:1px solid #334155;
+    border-radius:10px;padding:14px;font-family:'Space Mono',ui-monospace,Menlo,monospace;
+    font-size:13px;line-height:1.55;resize:vertical;outline:none;tab-size:2;
+  }
+  textarea.code:focus{border-color:var(--accent)}
+  .actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  button{
+    border:none;border-radius:10px;padding:9px 18px;cursor:pointer;
+    font-size:13px;font-weight:700;transition:all .15s;color:#fff;
+  }
+  .btn-run{background:linear-gradient(135deg,#10B981,#059669)}
+  .btn-sol{background:linear-gradient(135deg,#6366F1,#8B5CF6)}
+  .btn-reset{background:#334155}
+  button:hover{transform:translateY(-1px);filter:brightness(1.1)}
+  .console{
+    margin-top:10px;background:#020617;border:1px solid #1E293B;
+    border-radius:10px;padding:10px 14px;font-family:'Space Mono',ui-monospace,Menlo,monospace;
+    font-size:12.5px;color:#A5B4FC;min-height:36px;white-space:pre-wrap;
+    max-height:240px;overflow:auto;
+  }
+  .console:empty::before{content:'// Pulsa Ejecutar para ver el resultado';color:#475569}
+  .console .ok{color:#6EE7B7}
+  .console .err{color:#FCA5A5}
+  .solution{
+    margin-top:10px;background:#0D2818;border:1px solid #10B98144;
+    border-left:4px solid #10B981;border-radius:10px;padding:12px 16px;
+    display:none;
+  }
+  .solution.show{display:block}
+  .solution .lbl{
+    font-size:11px;font-weight:800;color:#10B981;letter-spacing:.06em;
+    margin-bottom:6px;
+  }
+  .solution pre{
+    background:#020617;border-radius:8px;padding:12px;overflow:auto;
+    font-family:'Space Mono',ui-monospace,Menlo,monospace;font-size:13px;
+    color:#E2E8F0;line-height:1.55;
+  }
+  .solution .note{color:#94A3B8;font-size:12.5px;margin-top:8px;line-height:1.5}
+  .u1 .ex-tag,.u1 .unit-title{background:none}
+  .u1 .ex-tag{background:var(--u1)} .u1 .unit-title{border-color:var(--u1)}
+  .u2 .ex-tag{background:var(--u2)} .u2 .unit-title{border-color:var(--u2)}
+  .u3 .ex-tag{background:var(--u3)} .u3 .unit-title{border-color:var(--u3)}
+  .u4 .ex-tag{background:var(--u4)} .u4 .unit-title{border-color:var(--u4)}
+  .u5 .ex-tag{background:var(--u5)} .u5 .unit-title{border-color:var(--u5)}
+  .u6 .ex-tag{background:var(--u6)} .u6 .unit-title{border-color:var(--u6)}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>DWEC · Ejercicios de Repaso</h1>
+  <p>JavaScript práctico · S1–S14 · Edita el código, ejecuta y compara con la solución</p>
+</header>
+
+<nav class="units-nav">
+  <a href="#u2">U2 · JS Básico</a>
+  <a href="#u3">U3 · Datos + Forms</a>
+  <a href="#u4">U4 · DOM + Async</a>
+  <a href="#u5">U5 · APIs REST</a>
+  <a href="#u6">U6 · XML + Seguridad</a>
+</nav>
+
+<!-- ───── U2 ───── -->
+<section class="unit-section u2" id="u2">
+  <h2 class="unit-title">U2 · JavaScript Básico (S3–S5)</h2>
+
+  <div class="ex" data-ex="1">
+    <div class="ex-head"><span class="ex-tag">U2·S3</span><span class="ex-num">EJ 01</span></div>
+    <h3 class="ex-title">let vs const</h3>
+    <p class="ex-desc">Declara una constante <code>PI</code> con valor 3.1416 y una variable <code>radio</code> con valor 5. Calcula y muestra el área del círculo (<code>PI * radio²</code>). Después intenta reasignar <code>radio</code> a 10 y vuelve a calcular el área. Usa <code>console.log</code>.</p>
+    <textarea class="code">// Tu código aquí
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>const PI = 3.1416;
+let radio = 5;
+console.log("Área:", PI * radio ** 2);   // 78.54
+radio = 10;
+console.log("Área:", PI * radio ** 2);   // 314.16</pre>
+      <p class="note">Si declararas <code>radio</code> con <code>const</code>, la reasignación lanzaría <code>TypeError: Assignment to constant variable</code>.</p>
+    </div>
+  </div>
+
+  <div class="ex" data-ex="2">
+    <div class="ex-head"><span class="ex-tag">U2·S3</span><span class="ex-num">EJ 02</span></div>
+    <h3 class="ex-title">Coerción y comparación estricta</h3>
+    <p class="ex-desc">Crea una función <code>iguales(a, b)</code> que devuelva <code>true</code> solo si <code>a</code> y <code>b</code> son iguales en valor Y tipo. Pruébala con: <code>"5"</code> y <code>5</code>, <code>0</code> y <code>false</code>, <code>null</code> y <code>undefined</code>, <code>3</code> y <code>3</code>.</p>
+    <textarea class="code">function iguales(a, b) {
+  // Tu código
+}
+
+// Pruebas
+console.log(iguales("5", 5));
+console.log(iguales(0, false));
+console.log(iguales(null, undefined));
+console.log(iguales(3, 3));
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>function iguales(a, b) {
+  return a === b;  // estricta: valor + tipo
+}
+// false, false, false, true</pre>
+      <p class="note">Con <code>==</code> los tres primeros darían <code>true</code> por coerción. Por eso siempre <code>===</code>.</p>
+    </div>
+  </div>
+
+  <div class="ex" data-ex="3">
+    <div class="ex-head"><span class="ex-tag">U2·S4</span><span class="ex-num">EJ 03</span></div>
+    <h3 class="ex-title">map, filter, reduce</h3>
+    <p class="ex-desc">Dado el array <code>productos</code>, devuelve un <strong>array</strong> con los nombres en mayúsculas de los productos cuyo precio sea menor o igual a 50, y muestra también el <strong>total</strong> sumado de TODOS los precios.</p>
+    <textarea class="code">const productos = [
+  { nombre: "Teclado", precio: 30 },
+  { nombre: "Monitor", precio: 180 },
+  { nombre: "Ratón",   precio: 25 },
+  { nombre: "Webcam",  precio: 60 }
+];
+
+// 1) nombres en mayúsculas de los <= 50€
+// 2) total sumado
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>const baratos = productos
+  .filter(p => p.precio &lt;= 50)
+  .map(p => p.nombre.toUpperCase());
+
+const total = productos.reduce((acc, p) => acc + p.precio, 0);
+
+console.log(baratos); // ["TECLADO", "RATÓN"]
+console.log(total);   // 295</pre>
+      <p class="note">El patrón <code>filter → map</code> es muy común. <code>reduce</code> con <code>acc</code> inicial 0 acumula.</p>
+    </div>
+  </div>
+
+  <div class="ex" data-ex="4">
+    <div class="ex-head"><span class="ex-tag">U2·S4</span><span class="ex-num">EJ 04</span></div>
+    <h3 class="ex-title">Funciones flecha y this</h3>
+    <p class="ex-desc">Crea una función <code>multiplicador(n)</code> que devuelva otra función que, dado un valor <code>x</code>, devuelva <code>x * n</code>. Úsala para crear <code>doble</code> y <code>triple</code>.</p>
+    <textarea class="code">// Tu código aquí
+const doble  = multiplicador(2);
+const triple = multiplicador(3);
+console.log(doble(5));   // 10
+console.log(triple(5));  // 15
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>const multiplicador = (n) => (x) => x * n;
+// equivalente a:
+// function multiplicador(n) { return function(x) { return x * n; } }</pre>
+      <p class="note">Esto se llama <strong>closure</strong>: la función interna recuerda el <code>n</code> de la externa.</p>
+    </div>
+  </div>
+
+  <div class="ex" data-ex="20">
+    <div class="ex-head"><span class="ex-tag">U2·S3</span><span class="ex-num">EJ 20</span></div>
+    <h3 class="ex-title">Destructuring + spread/rest</h3>
+    <p class="ex-desc">A partir del objeto <code>usuario</code>: 1) extrae <code>nombre</code> y <code>email</code> en variables sueltas, y agrupa el resto en <code>...resto</code>. 2) Crea <code>usuarioActualizado</code> combinando <code>usuario</code> con <code>{ edad: 31, ciudad: "Madrid" }</code> SIN mutar el original.</p>
+    <textarea class="code">const usuario = {
+  nombre: "Ana",
+  email: "ana@x.com",
+  edad: 30,
+  rol: "admin"
+};
+
+// 1) destructuring con rest
+// 2) merge inmutable con spread
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>const { nombre, email, ...resto } = usuario;
+console.log(nombre);   // "Ana"
+console.log(email);    // "ana@x.com"
+console.log(resto);    // { edad: 30, rol: "admin" }
+
+const usuarioActualizado = { ...usuario, edad: 31, ciudad: "Madrid" };
+console.log(usuarioActualizado);
+console.log(usuario.edad);  // 30  ← original intacto</pre>
+      <p class="note">El spread <code>{...a, b}</code> es la forma idiomática en React de actualizar estado sin mutar. Las claves posteriores ganan.</p>
+    </div>
+  </div>
+
+  <div class="ex" data-ex="5">
+    <div class="ex-head"><span class="ex-tag">U2·S5</span><span class="ex-num">EJ 05</span></div>
+    <h3 class="ex-title">Contador con addEventListener</h3>
+    <p class="ex-desc">Tienes un botón y un span (los crearé yo cuando ejecutes). Escribe el código que, al hacer click en el botón <code>#btn</code>, incremente <code>contador</code> y lo muestre en <code>#out</code>. Usa <code>textContent</code> (seguro frente a XSS).</p>
+    <textarea class="code">// document.getElementById("btn") y document.getElementById("out") ya existen
+let contador = 0;
+// Añade el listener:
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>const btn = document.getElementById("btn");
+const out = document.getElementById("out");
+let contador = 0;
+btn.addEventListener("click", () => {
+  contador++;
+  out.textContent = contador;
+});</pre>
+      <p class="note"><code>textContent</code> es seguro: si pones HTML lo escapa. <code>innerHTML</code> lo interpretaría (XSS).</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ───── U3 ───── -->
+<section class="unit-section u3" id="u3">
+  <h2 class="unit-title">U3 · Datos y Formularios (S6–S7)</h2>
+
+  <div class="ex" data-ex="6">
+    <div class="ex-head"><span class="ex-tag">U3·S6</span><span class="ex-num">EJ 06</span></div>
+    <h3 class="ex-title">Eliminar duplicados con Set</h3>
+    <p class="ex-desc">Dada una lista de emails con duplicados, devuelve un array con cada email solo una vez, en orden de aparición.</p>
+    <textarea class="code">const emails = [
+  "ana@x.com", "luis@x.com", "ana@x.com",
+  "marta@x.com", "luis@x.com", "pepe@x.com"
+];
+
+// únicos =
+console.log(/* únicos */);
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>const unicos = [...new Set(emails)];
+console.log(unicos);
+// ["ana@x.com","luis@x.com","marta@x.com","pepe@x.com"]</pre>
+      <p class="note"><code>Set</code> garantiza unicidad y mantiene orden de inserción. El spread <code>...</code> lo convierte a array.</p>
+    </div>
+  </div>
+
+  <div class="ex" data-ex="7">
+    <div class="ex-head"><span class="ex-tag">U3·S6</span><span class="ex-num">EJ 07</span></div>
+    <h3 class="ex-title">Map de usuarios por ID</h3>
+    <p class="ex-desc">Crea un <code>Map</code> donde la clave sea el <code>id</code> del usuario y el valor el objeto completo. Después busca el usuario con id 2.</p>
+    <textarea class="code">const usuarios = [
+  { id: 1, nombre: "Ana" },
+  { id: 2, nombre: "Luis" },
+  { id: 3, nombre: "Marta" }
+];
+
+// Crea el Map y busca el id 2
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>const mapa = new Map(usuarios.map(u => [u.id, u]));
+console.log(mapa.get(2));        // { id: 2, nombre: "Luis" }
+console.log(mapa.has(99));       // false</pre>
+      <p class="note">A diferencia de un objeto literal, <code>Map</code> admite claves de cualquier tipo y mantiene el orden de inserción.</p>
+    </div>
+  </div>
+
+  <div class="ex" data-ex="8">
+    <div class="ex-head"><span class="ex-tag">U3·S6</span><span class="ex-num">EJ 08</span></div>
+    <h3 class="ex-title">JSON: guardar y leer un objeto</h3>
+    <p class="ex-desc">Convierte el objeto <code>config</code> a una cadena JSON, luego conviértelo de vuelta a objeto y muestra el valor de <code>config2.tema</code>.</p>
+    <textarea class="code">const config = { tema: "oscuro", idioma: "es", notificaciones: true };
+
+// 1) objeto → string
+// 2) string → objeto
+// 3) muestra config2.tema
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>const str = JSON.stringify(config);
+console.log(str);
+// '{"tema":"oscuro","idioma":"es","notificaciones":true}'
+
+const config2 = JSON.parse(str);
+console.log(config2.tema);  // "oscuro"</pre>
+      <p class="note">Este es el patrón de <code>localStorage</code>: solo guarda strings, por eso siempre se serializa con <code>stringify</code>.</p>
+    </div>
+  </div>
+
+  <div class="ex" data-ex="9">
+    <div class="ex-head"><span class="ex-tag">U3·S7</span><span class="ex-num">EJ 09</span></div>
+    <h3 class="ex-title">Validación de formulario</h3>
+    <p class="ex-desc">Crea una función <code>validar(email, password)</code> que devuelva <code>{ ok: true }</code> si el email tiene formato válido y la contraseña tiene al menos 8 caracteres. Si no, <code>{ ok: false, error: "mensaje" }</code>.</p>
+    <textarea class="code">function validar(email, password) {
+  // Tu código
+}
+
+console.log(validar("ana@x.com", "abc12345"));
+console.log(validar("noEsEmail",  "abc12345"));
+console.log(validar("ana@x.com",  "corta"));
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>function validar(email, password) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!re.test(email)) return { ok: false, error: "Email no válido" };
+  if (password.length &lt; 8) return { ok: false, error: "Contraseña muy corta" };
+  return { ok: true };
+}</pre>
+      <p class="note">Validar en cliente mejora UX pero el servidor SIEMPRE debe revalidar (cualquiera puede saltarse el JS).</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ───── U4 ───── -->
+<section class="unit-section u4" id="u4">
+  <h2 class="unit-title">U4 · DOM Avanzado y Async (S8–S9)</h2>
+
+  <div class="ex" data-ex="10">
+    <div class="ex-head"><span class="ex-tag">U4·S8</span><span class="ex-num">EJ 10</span></div>
+    <h3 class="ex-title">Lista dinámica con createElement</h3>
+    <p class="ex-desc">Dado un array <code>tareas</code>, crea un <code>&lt;ul&gt;</code> con un <code>&lt;li&gt;</code> por cada tarea y añádelo a <code>#contenedor</code> (que ya existe). Usa <code>textContent</code>, NO <code>innerHTML</code>.</p>
+    <textarea class="code">const tareas = ["Repasar JS", "Probar fetch", "Estudiar XSS"];
+const contenedor = document.getElementById("contenedor");
+
+// Tu código aquí
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>const ul = document.createElement("ul");
+tareas.forEach(t => {
+  const li = document.createElement("li");
+  li.textContent = t;
+  ul.appendChild(li);
+});
+contenedor.appendChild(ul);</pre>
+      <p class="note">Si una tarea contuviera <code>&lt;script&gt;alert(1)&lt;/script&gt;</code>, <code>textContent</code> la mostraría como texto. <code>innerHTML</code> la ejecutaría.</p>
+    </div>
+  </div>
+
+  <div class="ex" data-ex="11">
+    <div class="ex-head"><span class="ex-tag">U4·S9</span><span class="ex-num">EJ 11</span></div>
+    <h3 class="ex-title">Promesa básica con setTimeout</h3>
+    <p class="ex-desc">Crea una función <code>esperar(ms)</code> que devuelva una promesa que se resuelva tras <code>ms</code> milisegundos con el texto "¡Listo!". Úsala con <code>.then</code>.</p>
+    <textarea class="code">function esperar(ms) {
+  // Tu código
+}
+
+esperar(500).then(msg => console.log(msg));
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>function esperar(ms) {
+  return new Promise(resolve => {
+    setTimeout(() => resolve("¡Listo!"), ms);
+  });
+}</pre>
+      <p class="note">Patrón clásico para convertir una API de callback (<code>setTimeout</code>) en una promesa.</p>
+    </div>
+  </div>
+
+  <div class="ex" data-ex="12">
+    <div class="ex-head"><span class="ex-tag">U4·S9</span><span class="ex-num">EJ 12</span></div>
+    <h3 class="ex-title">async/await + try/catch</h3>
+    <p class="ex-desc">Convierte este código con <code>.then/.catch</code> a una función <code>async</code> usando <code>await</code> y <code>try/catch</code>.</p>
+    <textarea class="code">// Original con .then:
+function cargar() {
+  return fetch("https://jsonplaceholder.typicode.com/todos/1")
+    .then(r => r.json())
+    .then(data => console.log(data.title))
+    .catch(e => console.log("Error:", e.message));
+}
+
+// Versión async/await:
+async function cargarAsync() {
+  // Tu código
+}
+
+cargarAsync();
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>async function cargarAsync() {
+  try {
+    const r = await fetch("https://jsonplaceholder.typicode.com/todos/1");
+    const data = await r.json();
+    console.log(data.title);
+  } catch (e) {
+    console.log("Error:", e.message);
+  }
+}</pre>
+      <p class="note">El motor sigue usando promesas por debajo. <code>await</code> solo funciona dentro de funciones <code>async</code>.</p>
+    </div>
+  </div>
+
+  <div class="ex" data-ex="13">
+    <div class="ex-head"><span class="ex-tag">U4·S9</span><span class="ex-num">EJ 13</span></div>
+    <h3 class="ex-title">Promise.all en paralelo</h3>
+    <p class="ex-desc">Ejecuta 3 promesas <code>esperar(300)</code>, <code>esperar(500)</code>, <code>esperar(200)</code> en paralelo y muestra los resultados cuando todas terminen. Mide el tiempo total.</p>
+    <textarea class="code">function esperar(ms) {
+  return new Promise(res => setTimeout(() => res(`fin ${ms}ms`), ms));
+}
+
+async function run() {
+  const t0 = performance.now();
+  // Tu código (Promise.all)
+  const t1 = performance.now();
+  console.log("Tiempo:", Math.round(t1 - t0), "ms");
+}
+run();
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>const resultados = await Promise.all([
+  esperar(300), esperar(500), esperar(200)
+]);
+console.log(resultados);  // ["fin 300ms", "fin 500ms", "fin 200ms"]
+// Tiempo ≈ 500ms (la más lenta), no 1000ms</pre>
+      <p class="note">En serie con <code>await</code> uno tras otro tardaría ~1000ms. En paralelo ~500ms (lo que tarde la más lenta).</p>
+    </div>
+  </div>
+
+  <div class="ex" data-ex="21">
+    <div class="ex-head"><span class="ex-tag">U4·S8</span><span class="ex-num">EJ 21</span></div>
+    <h3 class="ex-title">NodeList vs Array</h3>
+    <p class="ex-desc">En <code>#items</code> ya hay 4 <code>&lt;li&gt;</code>. Selecciónalos con <code>querySelectorAll</code> (devuelve NodeList). Convierte el NodeList a Array con <code>Array.from()</code> y usa <code>map()</code> para devolver un array con sus textos en mayúsculas.</p>
+    <textarea class="code">const lis = document.querySelectorAll("#items li");
+console.log(lis.constructor.name);  // NodeList
+
+// Convierte a array y devuelve textos en MAYÚSCULAS:
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>const textos = Array.from(lis).map(li =&gt; li.textContent.toUpperCase());
+console.log(textos);
+// ["UNO", "DOS", "TRES", "CUATRO"]
+
+// Alternativa con spread:
+// const textos = [...lis].map(li =&gt; li.textContent.toUpperCase());</pre>
+      <p class="note">NodeList tiene <code>forEach</code> pero NO <code>map/filter/reduce</code>. <code>HTMLCollection</code> (de <code>getElementsByTagName</code>) ni siquiera tiene forEach.</p>
+    </div>
+  </div>
+
+  <div class="ex" data-ex="22">
+    <div class="ex-head"><span class="ex-tag">U4·S8</span><span class="ex-num">EJ 22</span></div>
+    <h3 class="ex-title">DocumentFragment para inserciones masivas</h3>
+    <p class="ex-desc">Inserta 500 <code>&lt;li&gt;</code> en <code>#lista-frag</code>. Hazlo con <code>DocumentFragment</code> (un único reflow al final) y mide el tiempo con <code>performance.now()</code>.</p>
+    <textarea class="code">const lista = document.getElementById("lista-frag");
+
+const t0 = performance.now();
+// Crea el fragment, añade 500 li y luego lo insertas DE UNA SOLA VEZ
+const t1 = performance.now();
+console.log("Tiempo:", (t1 - t0).toFixed(2), "ms");
+console.log("Hijos insertados:", lista.children.length);
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>const frag = document.createDocumentFragment();
+for (let i = 1; i &lt;= 500; i++) {
+  const li = document.createElement("li");
+  li.textContent = "Item " + i;
+  frag.appendChild(li);   // ← en memoria, NO toca el DOM real
+}
+lista.appendChild(frag);  // ← UN solo reflow para los 500</pre>
+      <p class="note">Insertando uno a uno en el DOM real, el navegador recalcula layout 500 veces. Con fragment, solo una. Crítico en listas grandes.</p>
+    </div>
+  </div>
+
+  <div class="ex" data-ex="23">
+    <div class="ex-head"><span class="ex-tag">U4·S9</span><span class="ex-num">EJ 23</span></div>
+    <h3 class="ex-title">Debounce en un buscador</h3>
+    <p class="ex-desc">Implementa <code>debounce(fn, ms)</code>: devuelve una función que solo ejecuta <code>fn</code> tras <code>ms</code> ms sin volver a llamarse. Aplícalo al <code>input</code> de <code>#search</code> para que solo "busque" cuando el usuario para de escribir 400ms.</p>
+    <textarea class="code">function debounce(fn, ms) {
+  // Tu código
+}
+
+const search = document.getElementById("search");
+const out = document.getElementById("search-out");
+
+const buscar = (q) =&gt; {
+  out.textContent = "Buscando: " + q;
+  console.log("→ fetch real con q=" + q);
+};
+
+search.addEventListener("input", debounce(e =&gt; buscar(e.target.value), 400));
+// Escribe rápido en el input: solo se dispara al parar.
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>function debounce(fn, ms) {
+  let timer;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() =&gt; fn.apply(this, args), ms);
+  };
+}</pre>
+      <p class="note">Patrón clásico en buscadores: evitas hacer 20 peticiones al servidor mientras el usuario teclea. Solo una cuando para.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ───── U5 ───── -->
+<section class="unit-section u5" id="u5">
+  <h2 class="unit-title">U5 · APIs REST (S10–S11)</h2>
+
+  <div class="ex" data-ex="14">
+    <div class="ex-head"><span class="ex-tag">U5·S10</span><span class="ex-num">EJ 14</span></div>
+    <h3 class="ex-title">GET con fetch + manejo de errores</h3>
+    <p class="ex-desc">Pide los datos de <code>https://jsonplaceholder.typicode.com/users/1</code>. Si la respuesta tiene <code>res.ok === false</code> lanza un error con el status. Si todo va bien, muestra el <code>name</code>.</p>
+    <textarea class="code">async function getUsuario() {
+  // Tu código
+}
+getUsuario();
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>async function getUsuario() {
+  try {
+    const res = await fetch("https://jsonplaceholder.typicode.com/users/1");
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const u = await res.json();
+    console.log(u.name);
+  } catch (e) {
+    console.log("Error:", e.message);
+  }
+}</pre>
+      <p class="note">Recuerda: <code>fetch</code> NO rechaza con 404/500. Solo si falla la red. Hay que comprobar <code>res.ok</code> a mano.</p>
+    </div>
+  </div>
+
+  <div class="ex" data-ex="15">
+    <div class="ex-head"><span class="ex-tag">U5·S10</span><span class="ex-num">EJ 15</span></div>
+    <h3 class="ex-title">POST con fetch</h3>
+    <p class="ex-desc">Envía un nuevo post a <code>https://jsonplaceholder.typicode.com/posts</code> con los campos <code>title</code> y <code>body</code>. Recuerda <code>method</code>, <code>headers</code> con Content-Type y <code>body</code> con <code>JSON.stringify</code>.</p>
+    <textarea class="code">async function crearPost() {
+  // Tu código
+}
+crearPost();
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>async function crearPost() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title: "Repaso", body: "Hola DWEC" })
+  });
+  const data = await res.json();
+  console.log(data);  // incluye el id asignado por el servidor
+}</pre>
+      <p class="note">jsonplaceholder simula la creación pero no la persiste. Te devuelve el objeto con un <code>id</code>.</p>
+    </div>
+  </div>
+
+  <div class="ex" data-ex="16">
+    <div class="ex-head"><span class="ex-tag">U5·S11</span><span class="ex-num">EJ 16</span></div>
+    <h3 class="ex-title">apiService.js — patrón</h3>
+    <p class="ex-desc">Define un módulo <code>apiService</code> (objeto literal) con métodos <code>getAll()</code>, <code>getById(id)</code> y <code>create(data)</code> que centralicen la URL base. Úsalo para pedir el usuario 3.</p>
+    <textarea class="code">const API = "https://jsonplaceholder.typicode.com/users";
+
+const apiService = {
+  // Tu código
+};
+
+(async () => {
+  console.log(await apiService.getById(3));
+})();
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>const apiService = {
+  getAll:    () => fetch(API).then(r => r.json()),
+  getById:   (id) => fetch(`${API}/${id}`).then(r => r.json()),
+  create:    (data) => fetch(API, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  }).then(r => r.json())
+};</pre>
+      <p class="note">La ventaja: si cambia la URL base o necesitas añadir un token, lo tocas en UN solo sitio. Los componentes se quedan limpios.</p>
+    </div>
+  </div>
+
+  <div class="ex" data-ex="24">
+    <div class="ex-head"><span class="ex-tag">U5·S10</span><span class="ex-num">EJ 24</span></div>
+    <h3 class="ex-title">Fetch encadenado (dependiente)</h3>
+    <p class="ex-desc">Pide primero el usuario <code>/users/1</code>. Después, usando su <code>id</code>, pide sus posts en <code>/posts?userId={id}</code>. Muestra cuántos posts tiene y el título del primero.</p>
+    <textarea class="code">async function postsDelUsuario() {
+  // 1) GET /users/1
+  // 2) GET /posts?userId={id}
+  // 3) log cantidad y primer title
+}
+postsDelUsuario();
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>async function postsDelUsuario() {
+  const API = "https://jsonplaceholder.typicode.com";
+  const u = await (await fetch(`${API}/users/1`)).json();
+  const posts = await (await fetch(`${API}/posts?userId=${u.id}`)).json();
+  console.log("Usuario:", u.name);
+  console.log("Posts:", posts.length);          // 10
+  console.log("Primer título:", posts[0].title);
+}</pre>
+      <p class="note">Aquí los <code>await</code> tienen que ir en serie porque el segundo depende del primero. Si fueran independientes, <code>Promise.all</code> sería mejor.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ───── U6 ───── -->
+<section class="unit-section u6" id="u6">
+  <h2 class="unit-title">U6 · XML, Seguridad y Despliegue (S12–S14)</h2>
+
+  <div class="ex" data-ex="17">
+    <div class="ex-head"><span class="ex-tag">U6·S12</span><span class="ex-num">EJ 17</span></div>
+    <h3 class="ex-title">Parsear XML con DOMParser</h3>
+    <p class="ex-desc">Dado este XML como string, extrae los títulos de cada <code>&lt;libro&gt;</code> y muéstralos en consola.</p>
+    <textarea class="code">const xmlStr = `
+&lt;biblioteca&gt;
+  &lt;libro&gt;&lt;titulo&gt;El Quijote&lt;/titulo&gt;&lt;/libro&gt;
+  &lt;libro&gt;&lt;titulo&gt;1984&lt;/titulo&gt;&lt;/libro&gt;
+  &lt;libro&gt;&lt;titulo&gt;Fahrenheit 451&lt;/titulo&gt;&lt;/libro&gt;
+&lt;/biblioteca&gt;`;
+
+// Tu código
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>const parser = new DOMParser();
+const xml = parser.parseFromString(xmlStr, "application/xml");
+const libros = xml.querySelectorAll("libro titulo");
+libros.forEach(l =&gt; console.log(l.textContent));
+// "El Quijote", "1984", "Fahrenheit 451"</pre>
+      <p class="note">Sobre el documento parseado puedes usar <code>querySelector</code>/<code>getElementsByTagName</code> igual que con HTML.</p>
+    </div>
+  </div>
+
+  <div class="ex" data-ex="18">
+    <div class="ex-head"><span class="ex-tag">U6·S13</span><span class="ex-num">EJ 18</span></div>
+    <h3 class="ex-title">Prevenir XSS: textContent vs innerHTML</h3>
+    <p class="ex-desc">Tienes un <code>#salida</code>. Inserta el contenido de <code>maliciosa</code> de forma SEGURA (no debe ejecutarse el alert). Después muestra otro mensaje normal.</p>
+    <textarea class="code">const maliciosa = "&lt;img src=x onerror='alert(1)'&gt;";
+const salida = document.getElementById("salida");
+
+// Forma INSEGURA (NO usar):
+// salida.innerHTML = maliciosa;
+
+// Forma SEGURA:
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>salida.textContent = maliciosa;
+// Se muestra el string literal &lt;img...&gt; como texto plano.
+// No se interpreta como HTML, no se ejecuta el onerror.</pre>
+      <p class="note">Si NECESITAS renderizar HTML del usuario (un editor rich-text, p. ej.), pásalo antes por <code>DOMPurify.sanitize(html)</code>.</p>
+    </div>
+  </div>
+
+  <div class="ex" data-ex="19">
+    <div class="ex-head"><span class="ex-tag">U6·S13</span><span class="ex-num">EJ 19</span></div>
+    <h3 class="ex-title">localStorage con JSON</h3>
+    <p class="ex-desc">Guarda el objeto <code>preferencias</code> en localStorage, recupéralo y muestra el tema. Recuerda que localStorage solo guarda strings.</p>
+    <textarea class="code">const preferencias = { tema: "oscuro", idioma: "es" };
+
+// 1) Guardar
+// 2) Leer y mostrar el tema
+// 3) Borra la clave al final con localStorage.removeItem("prefs")
+</textarea>
+    <div class="actions">
+      <button class="btn-run">▶ Ejecutar</button>
+      <button class="btn-sol">💡 Ver solución</button>
+      <button class="btn-reset">↺ Reset</button>
+    </div>
+    <div class="console"></div>
+    <div class="solution">
+      <div class="lbl">SOLUCIÓN</div>
+<pre>localStorage.setItem("prefs", JSON.stringify(preferencias));
+
+const guardado = JSON.parse(localStorage.getItem("prefs"));
+console.log(guardado.tema);  // "oscuro"
+
+localStorage.removeItem("prefs");</pre>
+      <p class="note">Para tokens de auth NO uses localStorage en texto plano: cualquier XSS los puede leer. Mejor cookies <code>HttpOnly</code>.</p>
+    </div>
+  </div>
+
+</section>
+
+<script>
+const $$ = (sel, ctx=document) => ctx.querySelectorAll(sel);
+
+document.querySelectorAll(".ex").forEach(ex => {
+  const ta  = ex.querySelector("textarea.code");
+  const out = ex.querySelector(".console");
+  const sol = ex.querySelector(".solution");
+  const original = ta.value;
+
+  // Para ejercicios que necesitan DOM auxiliar
+  const exNum = ex.dataset.ex;
+  const needsDom = ["5","10","18","21","22","23"].includes(exNum);
+
+  ex.querySelector(".btn-run").addEventListener("click", async () => {
+    out.innerHTML = "";
+    // crear sandbox DOM si hace falta
+    let sandbox = ex.querySelector(".sandbox");
+    if (sandbox) sandbox.remove();
+    if (needsDom) {
+      sandbox = document.createElement("div");
+      sandbox.className = "sandbox";
+      sandbox.style.cssText = "margin-top:10px;padding:12px;background:#0F172A;border-radius:8px;border:1px dashed #334155";
+      if (exNum === "5") {
+        sandbox.innerHTML = '<button id="btn" style="padding:6px 14px;border-radius:6px;background:#6366F1;color:#fff;border:none;cursor:pointer;margin-right:10px">Pulsa</button><span id="out" style="color:#A5B4FC;font-family:monospace">0</span>';
+      } else if (exNum === "10") {
+        sandbox.innerHTML = '<div id="contenedor" style="color:#E2E8F0"></div>';
+      } else if (exNum === "18") {
+        sandbox.innerHTML = '<div id="salida" style="color:#FCA5A5;font-family:monospace"></div>';
+      } else if (exNum === "21") {
+        sandbox.innerHTML = '<ul id="items" style="color:#E2E8F0;margin-left:20px"><li>uno</li><li>dos</li><li>tres</li><li>cuatro</li></ul>';
+      } else if (exNum === "22") {
+        sandbox.innerHTML = '<ul id="lista-frag" style="color:#94A3B8;max-height:120px;overflow:auto;margin-left:20px;font-size:12px"></ul>';
+      } else if (exNum === "23") {
+        sandbox.innerHTML = '<input id="search" placeholder="Escribe para buscar…" style="padding:8px 12px;border-radius:6px;border:1px solid #475569;background:#0F172A;color:#E2E8F0;width:240px;outline:none"><div id="search-out" style="color:#A5B4FC;font-family:monospace;margin-top:8px"></div>';
+      }
+      ex.insertBefore(sandbox, out);
+    }
+
+    const log = (...args) => {
+      const line = args.map(a => {
+        if (typeof a === "object") {
+          try { return JSON.stringify(a, null, 2); } catch { return String(a); }
+        }
+        return String(a);
+      }).join(" ");
+      out.innerHTML += `<div class="ok">${escapeHtml(line)}</div>`;
+    };
+    const errLog = (msg) => {
+      out.innerHTML += `<div class="err">${escapeHtml(msg)}</div>`;
+    };
+    try {
+      const fn = new Function("console", `"use strict"; return (async () => { ${ta.value} })();`);
+      await fn({ log, error: errLog, warn: log });
+    } catch (e) {
+      errLog("⚠ " + e.message);
+    }
+  });
+
+  ex.querySelector(".btn-sol").addEventListener("click", () => {
+    sol.classList.toggle("show");
+  });
+
+  ex.querySelector(".btn-reset").addEventListener("click", () => {
+    ta.value = original;
+    out.innerHTML = "";
+    sol.classList.remove("show");
+    const sandbox = ex.querySelector(".sandbox");
+    if (sandbox) sandbox.remove();
+  });
+});
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, m => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[m]));
+}
+</script>
+</body>
+</html>
