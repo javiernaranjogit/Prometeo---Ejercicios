@@ -806,8 +806,18 @@ function shuffle(arr) {
   return a;
 }
 
+// Baraja las opciones de una pregunta y recalcula el índice de la correcta
+function shuffleOptions(q) {
+  const idxs = shuffle(q.options.map((_, i) => i));
+  return {
+    ...q,
+    options: idxs.map(i => q.options[i]),
+    correct: idxs.indexOf(q.correct)
+  };
+}
+
 function useQuestions() {
-  const [questions] = useState(() => shuffle(QUESTIONS));
+  const [questions] = useState(() => shuffle(QUESTIONS).map(shuffleOptions));
   return questions;
 }
 
