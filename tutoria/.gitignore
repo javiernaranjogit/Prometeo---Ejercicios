@@ -14,3 +14,6 @@ seguimiento*.csv
 # Entregas y memorias de alumnos
 **/entregas/
 *.docx.alumno
+
+# Correos con destinatarios reales
+correos/
