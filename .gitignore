@@ -12,3 +12,16 @@ Dwec/s10-apis-rest/perfil.js
 
 # Material original con datos personales (repo público)
 PROYECTO INTERMODULAR DE 2*.zip
+
+# ── Credenciales y secretos (repo PÚBLICO: nunca subir) ──
+.env
+.env.*
+!.env.example
+*.env
+credentials.json
+token.json
+client_secret*.json
+*.pem
+*.key
+*.p12
+secrets/
