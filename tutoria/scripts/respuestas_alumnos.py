@@ -30,10 +30,36 @@ BASE = Path(__file__).parent
 CSV_ALUMNOS = BASE.parent / "alumnos.csv"
 BUZON_ENVIADOS = "[Gmail]/Enviados"
 
-# Correos personales desde los que algún alumno escribe (no institucionales).
+# Correos personales conocidos → correo institucional del alumno.
+# Solo hace falta añadir aquí los casos que la detección por nombre no pille.
 ALIAS = {
     "rebeksaba@gmail.com": "rebeca.sanchez.bautista@students.thepower.education",
+    "pelayoespinosa@gmail.com": "pelayo.espinosa.tavira@students.thepower.education",
 }
+
+
+def normalizar(texto):
+    """minúsculas, sin acentos, sin puntuación."""
+    import unicodedata
+    t = unicodedata.normalize("NFKD", texto or "").encode("ascii", "ignore").decode()
+    return "".join(c if c.isalnum() or c.isspace() else " " for c in t.lower()).split()
+
+
+def emparejar_por_nombre(display, alumnos):
+    """Si un correo desconocido trae un nombre que casa con un alumno, lo asocia.
+
+    Exige al menos 2 palabras coincidentes (nombre + apellido) para no
+    confundir a dos alumnos que compartan nombre de pila.
+    """
+    tokens = set(normalizar(display))
+    if len(tokens) < 2:
+        return None
+    mejor, puntos = None, 0
+    for correo, a in alumnos.items():
+        comunes = tokens & set(normalizar(a["nombre"]))
+        if len(comunes) >= 2 and len(comunes) > puntos:
+            mejor, puntos = correo, len(comunes)
+    return mejor
 
 
 def cargar_env():
@@ -132,16 +158,29 @@ def main():
         desde = (datetime.now() - timedelta(days=args.dias)).strftime("%d-%b-%Y")
         criterio, etiqueta = f'(SINCE "{desde}")', f"últimos {args.dias} días"
 
+    detectados = {}  # correo personal → alumno, hallados por nombre
+
     def registrar(clave, campos):
         def _cb(msg):
-            for addr in direcciones(msg, campos):
-                oficial = resolver.get(addr)
-                if oficial:
-                    alumnos[oficial][clave].append({
-                        "fecha": fecha(msg),
-                        "asunto": decodificar(msg.get("Subject")),
-                        "addr": addr,
-                    })
+            for campo in campos:
+                for valor in msg.get_all(campo, []):
+                    for display, addr in email.utils.getaddresses([valor]):
+                        if not addr:
+                            continue
+                        addr = addr.lower().strip()
+                        oficial = resolver.get(addr)
+                        if not oficial and clave == "recibidos":
+                            # correo desconocido: ¿el nombre casa con algún alumno?
+                            oficial = emparejar_por_nombre(display, alumnos)
+                            if oficial:
+                                resolver[addr] = oficial
+                                detectados[addr] = alumnos[oficial]["nombre"]
+                        if oficial:
+                            alumnos[oficial][clave].append({
+                                "fecha": fecha(msg),
+                                "asunto": decodificar(msg.get("Subject")),
+                                "addr": addr,
+                            })
         return _cb
 
     n_in = recorrer(m, "INBOX", criterio, ["FROM"], registrar("recibidos", ["FROM"]))
@@ -207,6 +246,14 @@ def main():
         print("=" * 76)
         for a in sorted(sin_escribir, key=lambda x: (x["ciclo"], x["nombre"])):
             print(f"  · {a['nombre']} ({a['ciclo']})")
+
+    nuevos = {a: n for a, n in detectados.items() if a not in ALIAS}
+    if nuevos:
+        print("\n" + "=" * 76)
+        print("CORREOS PERSONALES DETECTADOS POR NOMBRE (verifica y añádelos a ALIAS)")
+        print("=" * 76)
+        for addr, nombre in nuevos.items():
+            print(f'  "{addr}": ...  # {nombre}')
 
     print(f"\nTotal: {len(alumnos)} alumnos.")
 
