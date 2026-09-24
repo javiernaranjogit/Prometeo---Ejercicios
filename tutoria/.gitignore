@@ -1,0 +1,16 @@
+# ⚠️ Este repositorio es PÚBLICO (GitHub Pages activo).
+# Nada que contenga datos personales de alumnado puede versionarse aquí.
+
+# Listados con nombres y correos
+alumnos.csv
+listado_alumnos_oficial.xlsx
+
+# Seguimiento con datos identificativos
+seguimiento*.xlsx
+seguimiento*.csv
+**/fichas/
+**/evidencias/
+
+# Entregas y memorias de alumnos
+**/entregas/
+*.docx.alumno
