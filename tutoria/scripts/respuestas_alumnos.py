@@ -35,6 +35,7 @@ BUZON_ENVIADOS = "[Gmail]/Enviados"
 ALIAS = {
     "rebeksaba@gmail.com": "rebeca.sanchez.bautista@students.thepower.education",
     "pelayoespinosa@gmail.com": "pelayo.espinosa.tavira@students.thepower.education",
+    "23miguelperz@gmail.com": "miguel.angel.perez.nieto@students.thepower.education",
 }
 
 
